@@ -27,8 +27,11 @@ layout: home
 
     function loadValue(textarea) {
         const value = retrieveValue();
+        const oldValue = textarea.value;
         textarea.value = value;
-        textarea.selectionStart = value.length;
+        if (oldValue === '') {
+            textarea.selectionStart = value.length;
+        }
     }
 
     function addValueListener(textarea) {
