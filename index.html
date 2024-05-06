@@ -28,6 +28,7 @@ layout: home
         const value = retrieveValue();
         if (value === '') { return; }
         textarea.value = value;
+        textarea.selectionStart = value.length;
     }
 
     function addValueListener(textarea) {
