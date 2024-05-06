@@ -20,13 +20,13 @@ layout: home
 
     function run() {
         const textarea = document.getElementById('{{ textarea_id }}');
-        loadValueIfNeeded(textarea);
+        loadValue(textarea);
         addValueListener(textarea);
+        addHashListener(textarea);
     }
 
-    function loadValueIfNeeded(textarea) {
+    function loadValue(textarea) {
         const value = retrieveValue();
-        if (value === '') { return; }
         textarea.value = value;
         textarea.selectionStart = value.length;
     }
@@ -35,6 +35,12 @@ layout: home
         textarea.addEventListener('input', (event) => {
             storeValue(event.target.value);
         }, false);
+    }
+
+    function addHashListener(textarea) {
+        window.addEventListener('hashchange', () => {
+            loadValue(textarea);
+        });
     }
 
     function retrieveValue() {
