@@ -48,6 +48,7 @@ layout: home
     }
 
     function serialize(value) {
+        if (value === '') { return ''; }
         const data = new TextEncoder().encode(value);
         const compressed = pako.deflate(data, { level: 9 });
         return Base64.fromUint8Array(compressed, true);
