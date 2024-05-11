@@ -1,0 +1,55 @@
+---
+layout: home
+---
+
+{%- assign textarea_id = 'textarea' -%}
+
+<textarea id="{{ textarea_id }}" autofocus wrap="off"></textarea>
+
+<script>
+    function main() {
+        if (document.readyState !== 'loading') {
+            document.addEventListener('DOMContentLoaded', run);
+        } else {
+            run();
+        }
+    }
+
+    function run() {
+        const textarea = document.getElementById('{{ textarea_id }}');
+        loadValueIfNeeded(textarea);
+        addValueListener(textarea);
+    }
+
+    function loadValueIfNeeded(textarea) {
+        const value = retrieveValue();
+        if (value === '') { return; }
+        textarea.value = value;
+    }
+
+    function addValueListener(textarea) {
+        textarea.addEventListener('input', (event) => {
+            storeValue(event.target.value);
+        }, false);
+    }
+
+    function retrieveValue() {
+        const hash = window.location.hash;
+        if (hash === '') { return ''; }
+        return deserialize(hash.substring(1));
+    }
+
+    function storeValue(value) {
+        window.location.hash = '#' + serialize(value);
+    }
+
+    function serialize(value) {
+        return escape(value);
+    }
+
+    function deserialize(value) {
+        return unescape(value);
+    }
+
+    main();
+</script>

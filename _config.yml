@@ -1,0 +1,22 @@
+title: Notepad Tab
+url: https://notepadtab.com
+
+# Disabled due to https://github.com/rubygems/rubygems/issues/7652
+# theme: minima
+# Added due to https://github.com/rubygems/rubygems/issues/7652
+remote_theme: jekyll/minima
+plugins:
+    # Added due to https://github.com/rubygems/rubygems/issues/7652
+    - jekyll-remote-theme
+exclude:
+    - LICENSE.md
+    - package-lock.json
+    - package.json
+    - README.md
+
+minima:
+    skin: auto
+    date_format: "%F"
+    social_links:
+        - platform: github
+          user_url: https://github.com/revolter/notepadtab.com
