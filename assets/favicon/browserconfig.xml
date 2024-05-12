@@ -1,0 +1,14 @@
+---
+---
+
+{% assign favicon_version = 1 %}
+
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="{% link /assets/favicon/mstile-150x150.png %}?v={{ favicon_version }}"/>
+            <TileColor>#da532c</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>

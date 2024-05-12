@@ -16,6 +16,11 @@ exclude:
     - package-lock.json
     - package.json
     - README.md
+defaults:
+    - scope:
+          path: ""
+      values:
+          image: /assets/favicon/android-chrome-512x512.png
 
 minima:
     skin: auto
