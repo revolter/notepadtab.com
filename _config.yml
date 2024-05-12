@@ -1,5 +1,6 @@
 title: Notepad Tab
 tagline: A simple, secure and private note taking tool
+description: Write down anything and have it automatically persisted in the address bar and in the browser's history. Easily back up or share any note by simply copy and pasting the URL.
 url: https://notepadtab.com
 
 # Disabled due to https://github.com/rubygems/rubygems/issues/7652
