@@ -6,8 +6,27 @@ layout: home
 <script src="{{ 'js-base64/base64.js' | node_module_url }}"></script>
 
 {%- assign textarea_id = 'textarea' -%}
+{%- capture textarea_placeholder -%}
+{{ site.tagline }}.
 
-<textarea id="{{ textarea_id }}" autofocus wrap="off"></textarea>
+{{ site.description }}
+
+- Doesn't need cookies = immune to data loss by accident
+- Doesn't use a server = no downtimes
+- Doesn't use analytics = respects your privacy
+
+---
+
+One example use case is this:
+- You start working on a new project.
+- You open a new browser window / tab group for this.
+- You open a {{ site.title | downcase }} to write down to do lists, ideas, reminders, etc.
+- You safely close and reopen the browser or power off and restart your machine when needed.
+- You get it synced to your other devices in supported browsers and update the notes on the go.
+
+{%- endcapture -%}
+
+<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder}}" autofocus></textarea>
 
 <script>
     function main() {

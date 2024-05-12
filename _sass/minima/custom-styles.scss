@@ -19,6 +19,7 @@ textarea {
     color: $text-color;
     background-color: $code-background-color;
     border-color: $border-color-01;
+    @include relative-font-size(1);
 
     width: 100%;
 }
