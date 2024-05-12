@@ -6,6 +6,7 @@ url: https://notepadtab.com
 # Added due to https://github.com/rubygems/rubygems/issues/7652
 remote_theme: jekyll/minima
 plugins:
+    - jekyll-node-module
     # Added due to https://github.com/rubygems/rubygems/issues/7652
     - jekyll-remote-theme
 exclude:
@@ -20,3 +21,6 @@ minima:
     social_links:
         - platform: github
           user_url: https://github.com/revolter/notepadtab.com
+node_modules:
+    assets:
+        js: assets/js

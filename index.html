@@ -2,6 +2,9 @@
 layout: home
 ---
 
+<script src="{{ 'pako/dist/pako.js' | node_module_url }}"></script>
+<script src="{{ 'js-base64/base64.js' | node_module_url }}"></script>
+
 {%- assign textarea_id = 'textarea' -%}
 
 <textarea id="{{ textarea_id }}" autofocus wrap="off"></textarea>
@@ -44,11 +47,14 @@ layout: home
     }
 
     function serialize(value) {
-        return escape(value);
+        const data = new TextEncoder().encode(value);
+        const compressed = pako.deflate(data, { level: 9 });
+        return Base64.fromUint8Array(compressed, true);
     }
 
     function deserialize(value) {
-        return unescape(value);
+        const data = Base64.toUint8Array(value);
+        return pako.inflate(data, { to: 'string' });
     }
 
     main();

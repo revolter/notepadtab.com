@@ -24,9 +24,17 @@ jobs:
                   ruby-version: 3.0.3
                   bundler-cache: true
                   cache-version: 0
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
             - name: Setup Pages
               id: pages
               uses: actions/configure-pages@v5
+            - name: Install Node.js dependencies
+              run: npm install
+              env:
+                  NODE_ENV: production
             - name: Build with Jekyll
               run: bundle exec jekyll build --verbose --trace --baseurl '${{ steps.pages.outputs.base_path }}'
               env:
