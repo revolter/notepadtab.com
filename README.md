@@ -1,5 +1,10 @@
 # Notepad Tab
 
+A simple, secure and private note taking tool.
+
+The idea of encoding and persisting the content in the URL was inspired by
+https://mermaid.live.
+
 ## Installation
 
 1. Install `Ruby` by following the instructions from
