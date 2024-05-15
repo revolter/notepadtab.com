@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace"
+        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace --baseurl '/notepadtab.com'"
     },
     "dependencies": {
         "js-base64": "*",
