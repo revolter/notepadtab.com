@@ -41,6 +41,7 @@ One example use case is this:
         const textarea = document.getElementById('{{ textarea_id }}');
         loadValue(textarea);
         addValueListener(textarea);
+        addFocusListener(textarea);
         addHashListener(textarea);
     }
 
@@ -54,8 +55,22 @@ One example use case is this:
     }
 
     function addValueListener(textarea) {
+        let timeout;
         textarea.addEventListener('input', (event) => {
-            storeValue(event.target.value);
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                storeValue(event.target.value);
+            }, 5000);
+        }, false);
+    }
+
+    function addFocusListener(textarea) {
+        textarea.addEventListener('blur', () => {
+            storeValue(textarea.value);
+        }, false);
+
+        window.addEventListener('blur', () => {
+            storeValue(textarea.value);
         }, false);
     }
 
