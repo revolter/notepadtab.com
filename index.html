@@ -26,7 +26,7 @@ One example use case is this:
 
 {%- endcapture -%}
 
-<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder}}" autofocus></textarea>
+<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
 
 <script>
     function main() {
@@ -52,6 +52,7 @@ One example use case is this:
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
+        updateTitle(value);
     }
 
     function addValueListener(textarea) {
@@ -59,18 +60,24 @@ One example use case is this:
         textarea.addEventListener('input', (event) => {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
-                storeValue(event.target.value);
+                const value = event.target.value;
+                storeValue(value);
+                updateTitle(value);
             }, 3000);
         }, false);
     }
 
     function addFocusListener(textarea) {
         textarea.addEventListener('blur', () => {
-            storeValue(textarea.value);
+            const value = textarea.value;
+            storeValue(value);
+            updateTitle(value);
         }, false);
 
         window.addEventListener('blur', () => {
-            storeValue(textarea.value);
+            const value = textarea.value;
+            storeValue(value);
+            updateTitle(value);
         }, false);
     }
 
@@ -100,6 +107,15 @@ One example use case is this:
     function deserialize(value) {
         const data = Base64.toUint8Array(value);
         return pako.inflate(data, { to: 'string' });
+    }
+
+    function updateTitle(value) {
+        const firstLine = value.split('\n')[0].trim();
+        if (firstLine) {
+            document.title = firstLine;
+        } else {
+            document.title = '{{ site.tagline }}';
+        }
     }
 
     main();
