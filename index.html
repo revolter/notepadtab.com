@@ -53,13 +53,25 @@ One example use case is this:
         }
     }
 
-    function addValueListener(textarea) {
-        textarea.addEventListener('input', (event) => {
-            const value = event.target.value;
-            storeValue(value);
-            updateTitle(value);
-        }, false);
-    }
+	const debounce = (func, delay) => {
+		let debounceTimer;
+		return function () {
+			const context = this;
+			const args = arguments;
+			clearTimeout(debounceTimer);
+			debounceTimer = setTimeout(() => func.apply(context, args), delay);
+		};
+	};
+
+	function addValueListener(textarea) {
+		textarea.addEventListener('input', debounce((event) => {
+                const value = event.target.value;
+                storeValue(value)
+                updateTitle(value);
+            }, 300),
+			false
+		);
+	}
 
     function addHashListener(textarea) {
         window.addEventListener('hashchange', () => {
