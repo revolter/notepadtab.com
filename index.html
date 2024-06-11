@@ -25,7 +25,7 @@ One example use case is this:
 
 {%- endcapture -%}
 
-<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder}}" autofocus></textarea>
+<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
 
 <script>
     function main() {
@@ -47,6 +47,7 @@ One example use case is this:
         const value = retrieveValue();
         const oldValue = textarea.value;
         textarea.value = value;
+        updateTitle(value);
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
@@ -54,7 +55,9 @@ One example use case is this:
 
     function addValueListener(textarea) {
         textarea.addEventListener('input', (event) => {
-            storeValue(event.target.value);
+            const value = event.target.value;
+            storeValue(value);
+            updateTitle(value);
         }, false);
     }
 
@@ -72,6 +75,18 @@ One example use case is this:
 
     function storeValue(value) {
         window.location.hash = '#' + serialize(value);
+    }
+
+    function updateTitle(value) {
+        const rawTitle = value.split('\n', 1)[0];
+        if (rawTitle === '') { return; }
+        const truncatedTitle = truncate(rawTitle, 30);
+        document.title = truncatedTitle + ' | ' + '{{ site.tagline }}';
+    }
+
+    function truncate(string, limit) {
+        if (string.length < limit) { return string; }
+        return string.slice(0, limit - 1) + "…";
     }
 
     function serialize(value) {
