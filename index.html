@@ -105,10 +105,12 @@ One example use case is this:
     }
 
     function updateTitle(value) {
+        document.title = '{{ site.tagline }}';
+
         const rawTitle = value.split('\n', 1)[0];
         if (rawTitle === '') { return; }
         const truncatedTitle = truncate(rawTitle.trim(), 30);
-        document.title = truncatedTitle + ' | ' + '{{ site.tagline }}';
+        document.title = truncatedTitle + ' | ' + document.title;
     }
 
     function truncate(string, limit) {
