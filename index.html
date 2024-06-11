@@ -107,7 +107,7 @@ One example use case is this:
     function updateTitle(value) {
         const rawTitle = value.split('\n', 1)[0];
         if (rawTitle === '') { return; }
-        const truncatedTitle = truncate(rawTitle, 30);
+        const truncatedTitle = truncate(rawTitle.trim(), 30);
         document.title = truncatedTitle + ' | ' + '{{ site.tagline }}';
     }
 
