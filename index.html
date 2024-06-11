@@ -40,6 +40,7 @@ One example use case is this:
         const textarea = document.getElementById('{{ textarea_id }}');
         loadValue(textarea);
         addValueListener(textarea);
+        addFocusListener(textarea);
         addHashListener(textarea);
     }
 
@@ -69,6 +70,20 @@ One example use case is this:
             storeValue(value);
             updateTitle(value);
         }, 300), false);
+    }
+
+    function addFocusListener(textarea) {
+        textarea.addEventListener('blur', () => {
+            const value = textarea.value;
+            storeValue(value);
+            updateTitle(value);
+        }, false);
+
+        window.addEventListener('blur', () => {
+            const value = textarea.value;
+            storeValue(value);
+            updateTitle(value);
+        }, false);
     }
 
     function addHashListener(textarea) {
