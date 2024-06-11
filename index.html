@@ -40,6 +40,7 @@ One example use case is this:
         const textarea = document.getElementById('{{ textarea_id }}');
         loadValue(textarea);
         addValueListener(textarea);
+        addFocusListener(textarea);
         addHashListener(textarea);
     }
 
@@ -53,11 +54,32 @@ One example use case is this:
         }
     }
 
+    const debounce = (func, delay) => {
+        let debounceTimer;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        };
+    };
+
     function addValueListener(textarea) {
-        textarea.addEventListener('input', (event) => {
+        textarea.addEventListener('input', debounce((event) => {
             const value = event.target.value;
-            storeValue(value);
-            updateTitle(value);
+            onValueUpdate(value);
+        }, 300), false);
+    }
+
+    function addFocusListener(textarea) {
+        textarea.addEventListener('blur', () => {
+            const value = textarea.value;
+            onValueUpdate(value);
+        }, false);
+
+        window.addEventListener('blur', () => {
+            const value = textarea.value;
+            onValueUpdate(value);
         }, false);
     }
 
@@ -71,6 +93,11 @@ One example use case is this:
         const hash = window.location.hash;
         if (hash === '') { return ''; }
         return deserialize(hash.substring(1));
+    }
+
+    function onValueUpdate(value) {
+        storeValue(value);
+        updateTitle(value);
     }
 
     function storeValue(value) {
