@@ -1,6 +1,10 @@
 $default-spacing: 8px;
 
-html, body {
+html {
+    height: 100%;
+}
+
+body {
     height: 100%;
 }
 
@@ -8,7 +12,12 @@ html, body {
     display: flex;
 }
 
-.page-content > .wrapper, .home {
+.page-content > .wrapper {
+    display: flex;
+    flex-grow: 1;
+}
+
+.home {
     display: flex;
     flex-grow: 1;
 }
