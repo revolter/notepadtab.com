@@ -139,12 +139,17 @@ One example use case is this:
     }
 
     function updateTitle(value) {
-        document.title = '{{ site.tagline }}';
+        const titleParts = [];
 
         const rawTitle = value.split('\n', 1)[0];
-        if (rawTitle === '') { return; }
-        const truncatedTitle = truncate(rawTitle.trim(), 30);
-        document.title = truncatedTitle + ' | ' + document.title;
+        if (rawTitle !== '') {
+            const truncatedTitle = truncate(rawTitle.trim(), 30);
+            titleParts.push(truncatedTitle);
+        }
+
+        titleParts.push('{{ site.tagline }}');
+
+        document.title = titleParts.join(' | ');
     }
 
     function updateMarkdownPreviewIfNeeded(value, markdownPreview) {
