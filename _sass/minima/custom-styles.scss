@@ -1,3 +1,5 @@
+$default-spacing: 8px;
+
 html, body {
     height: 100%;
 }
@@ -15,12 +17,27 @@ html, body {
     justify-content: center;
 }
 
+.home {
+    justify-content: center;
+    gap: $default-spacing;
+}
+
 textarea {
     color: $text-color;
+    @include relative-font-size(1);
+}
+
+.markdown-preview {
+    border-style: solid;
+    border-width: 1px;
+}
+
+textarea, .markdown-preview {
+    flex-grow: 1;
+    flex-basis: 0;
+
     background-color: $code-background-color;
     border-color: $border-color-01;
-    @include relative-font-size(1);
 
-    width: 100%;
-    padding: 8px;
+    padding: $default-spacing;
 }

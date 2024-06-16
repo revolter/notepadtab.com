@@ -4,8 +4,10 @@ layout: home
 
 <script src="{{ 'js-base64/base64.js' | node_module_url | relative_url }}"></script>
 <script src="{{ 'pako/dist/pako.min.js' | node_module_url | relative_url }}"></script>
+<script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
 
 {%- assign textarea_id = 'textarea' -%}
+{%- assign markdown_preview_id = 'markdown-preview' -%}
 {%- capture textarea_placeholder -%}
 {{ site.tagline }}.
 
@@ -26,6 +28,7 @@ One example use case is this:
 {%- endcapture -%}
 
 <textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
+<div id="{{ markdown_preview_id }}" class="markdown-preview"></div>
 
 <script>
     function main() {
@@ -38,17 +41,19 @@ One example use case is this:
 
     function run() {
         const textarea = document.getElementById('{{ textarea_id }}');
-        loadValue(textarea);
+        const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
+        loadValue(textarea, markdownPreview);
         addValueListener(textarea);
         addFocusListener(textarea);
-        addHashListener(textarea);
+        addHashListener(textarea, markdownPreview);
     }
 
-    function loadValue(textarea) {
+    function loadValue(textarea, markdownPreview) {
         const value = retrieveValue();
         const oldValue = textarea.value;
         textarea.value = value;
         updateTitle(value);
+        updateMarkdownPreview(value, markdownPreview);
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
@@ -80,9 +85,9 @@ One example use case is this:
         }, false);
     }
 
-    function addHashListener(textarea) {
+    function addHashListener(textarea, markdownPreview) {
         window.addEventListener('hashchange', () => {
-            loadValue(textarea);
+            loadValue(textarea, markdownPreview);
         });
     }
 
@@ -103,6 +108,26 @@ One example use case is this:
         if (rawTitle === '') { return; }
         const truncatedTitle = truncate(rawTitle.trim(), 30);
         document.title = truncatedTitle + ' | ' + document.title;
+    }
+
+    function updateMarkdownPreview(value, markdownPreview) {
+        const converter = new showdown.Converter({
+            omitExtraWLInCodeBlocks: true,
+            noHeaderId: true,
+            parseImgDimensions: true,
+            simplifiedAutoLink: true,
+            literalMidWordUnderscores: true,
+            strikethrough: true,
+            tables: true,
+            tasklists: true,
+            smoothLivePreview: true,
+            simpleLineBreaks: true,
+            openLinksInNewWindow: true,
+            emoji: true,
+            splitAdjacentBlockquotes: true
+        });
+        const html = converter.makeHtml(value);
+        markdownPreview.innerHTML = html;
     }
 
     function truncate(string, limit) {
