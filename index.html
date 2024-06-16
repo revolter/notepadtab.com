@@ -140,13 +140,21 @@ One example use case is this:
 
     function updateTitle(value) {
         const titleParts = [];
+        const customParts = [];
 
         const rawTitle = value.split('\n', 1)[0];
         if (rawTitle !== '') {
             const truncatedTitle = truncate(rawTitle.trim(), 30);
-            titleParts.push(truncatedTitle);
+            customParts.push(truncatedTitle);
         }
 
+        if (isMarkdownPreviewEnabled()) {
+            customParts.push('Markdown');
+        }
+
+        if (customParts.length > 0) {
+            titleParts.push(customParts.join(' - '));
+        }
         titleParts.push('{{ site.tagline }}');
 
         document.title = titleParts.join(' | ');
