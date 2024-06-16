@@ -17,16 +17,13 @@ body {
     flex-grow: 1;
 }
 
-.home {
-    display: flex;
-    flex-grow: 1;
-}
-
 .page-content > .wrapper {
     justify-content: center;
 }
 
 .home {
+    display: flex;
+    flex-grow: 1;
     flex-direction: column;
     gap: $default-spacing;
 }
