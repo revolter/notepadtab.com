@@ -6,69 +6,66 @@ html {
 
 body {
     height: 100%;
-}
 
-.page-content {
-    display: flex;
-}
+    .page-content {
+        display: flex;
 
-.page-content > .wrapper {
-    display: flex;
-    flex-grow: 1;
-}
+        .wrapper {
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
 
-.page-content > .wrapper {
-    justify-content: center;
-}
+            .home {
+                display: flex;
+                flex-grow: 1;
+                flex-direction: column;
+                gap: $default-spacing;
 
-.home {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    gap: $default-spacing;
-}
+                .toolbar {
+                    display: flex;
+                    justify-content: flex-end;
+                }
 
-.toolbar {
-    display: flex;
-    justify-content: flex-end;
-}
+                .content {
+                    @media screen and (min-width: $on-laptop) {
+                        flex-direction: row;
+                    }
 
-.content {
-    @media screen and (min-width: $on-laptop) {
-        flex-direction: row;
+                    @media not screen and (min-width: $on-laptop) {
+                        flex-direction: column;
+                    }
+
+                    display: flex;
+                    flex-grow: 1;
+                    justify-content: center;
+
+                    gap: $default-spacing;
+
+                    textarea {
+                        color: $text-color;
+                        @include relative-font-size(1);
+                    }
+
+                    .markdown-preview {
+                        border-style: solid;
+                        border-width: 1px;
+
+                        @media not screen and (min-width: $on-laptop) {
+                            overflow: auto;
+                        }
+                    }
+
+                    textarea, .markdown-preview {
+                        flex-grow: 1;
+                        flex-basis: 0;
+
+                        background-color: $code-background-color;
+                        border-color: $border-color-01;
+
+                        padding: $default-spacing;
+                    }
+                }
+            }
+        }
     }
-
-    @media not screen and (min-width: $on-laptop) {
-        flex-direction: column;
-    }
-
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-
-    gap: $default-spacing;
-}
-
-textarea {
-    color: $text-color;
-    @include relative-font-size(1);
-}
-
-.markdown-preview {
-    border-style: solid;
-    border-width: 1px;
-
-    @media not screen and (min-width: $on-laptop) {
-        overflow: auto;
-    }
-}
-
-textarea, .markdown-preview {
-    flex-grow: 1;
-    flex-basis: 0;
-
-    background-color: $code-background-color;
-    border-color: $border-color-01;
-
-    padding: $default-spacing;
 }
