@@ -6,6 +6,7 @@ layout: home
 <script src="{{ 'pako/dist/pako.min.js' | node_module_url | relative_url }}"></script>
 <script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
 
+{%- assign toggle_markdown_preview_id = 'toggle-markdown-preview' -%}
 {%- assign textarea_id = 'textarea' -%}
 {%- assign markdown_preview_id = 'markdown-preview' -%}
 {%- capture textarea_placeholder -%}
@@ -27,8 +28,14 @@ One example use case is this:
 
 {%- endcapture -%}
 
-<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
-<div id="{{ markdown_preview_id }}" class="markdown-preview"></div>
+<div class="toolbar">
+    <button id="{{ toggle_markdown_preview_id }}">Toggle Markdown preview</button>
+</div>
+
+<div class="content">
+    <textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
+    <div id="{{ markdown_preview_id }}" class="markdown-preview"></div>
+</div>
 
 <script>
     function main() {
@@ -40,12 +47,42 @@ One example use case is this:
     }
 
     function run() {
+        const toggleMarkdownPreview = document.getElementById('{{ toggle_markdown_preview_id }}');
         const textarea = document.getElementById('{{ textarea_id }}');
         const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
+
+        loadMarkdownPreviewVisibility(markdownPreview);
+        addClickListener(toggleMarkdownPreview);
+
         loadValue(textarea, markdownPreview);
         addValueListener(textarea);
         addFocusListener(textarea);
         addHashListener(textarea, markdownPreview);
+    }
+
+    function addClickListener(toggleMarkdownPreview) {
+        toggleMarkdownPreview.addEventListener('click', () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (isMarkdownPreviewEnabled()) {
+                searchParams.delete('{{ toggle_markdown_preview_id }}');
+            } else {
+                searchParams.set('{{ toggle_markdown_preview_id }}', 'true');
+            }
+            document.location.search = searchParams.toString();
+        }, false);
+    }
+
+    function loadMarkdownPreviewVisibility(markdownPreview) {
+        if (isMarkdownPreviewEnabled()) {
+            markdownPreview.style.display = 'block';
+        } else {
+            markdownPreview.style.display = 'none';
+        }
+    }
+
+    function isMarkdownPreviewEnabled() {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.has('{{ toggle_markdown_preview_id }}');
     }
 
     function loadValue(textarea, markdownPreview) {
@@ -53,7 +90,7 @@ One example use case is this:
         const oldValue = textarea.value;
         textarea.value = value;
         updateTitle(value);
-        updateMarkdownPreview(value, markdownPreview);
+        updateMarkdownPreviewIfNeeded(value, markdownPreview);
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
@@ -110,7 +147,9 @@ One example use case is this:
         document.title = truncatedTitle + ' | ' + document.title;
     }
 
-    function updateMarkdownPreview(value, markdownPreview) {
+    function updateMarkdownPreviewIfNeeded(value, markdownPreview) {
+        if (!isMarkdownPreviewEnabled()) { return; }
+
         const converter = new showdown.Converter({
             omitExtraWLInCodeBlocks: true,
             noHeaderId: true,

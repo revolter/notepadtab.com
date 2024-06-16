@@ -18,7 +18,21 @@ html, body {
 }
 
 .home {
+    flex-direction: column;
+    gap: $default-spacing;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
     justify-content: center;
+
     gap: $default-spacing;
 }
 
