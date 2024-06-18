@@ -6,6 +6,9 @@ layout: home
 <script src="{{ 'pako/dist/pako.min.js' | node_module_url | relative_url }}"></script>
 <script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
 
+{%- assign full_width_id = 'full-width' -%}
+{%- capture toggle_full_width_id -%}toggle-{{ full_width_id }}{%- endcapture -%}
+
 {%- assign markdown_preview_id = 'markdown-preview' -%}
 {%- capture toggle_markdown_preview_id -%}toggle-{{ markdown_preview_id }}{%- endcapture -%}
 
@@ -30,6 +33,7 @@ One example use case is this:
 {%- endcapture -%}
 
 <div class="toolbar">
+    <button id="{{ toggle_full_width_id }}">Toggle full-width</button>
     <button id="{{ toggle_markdown_preview_id }}">Toggle Markdown preview</button>
 </div>
 
@@ -48,6 +52,10 @@ One example use case is this:
     }
 
     function run() {
+        const toggleFullWidth = document.getElementById('{{ toggle_full_width_id }}');
+        loadFullWidthStyle();
+        addFullWidthToggleClickListener(toggleFullWidth);
+
         const toggleMarkdownPreview = document.getElementById('{{ toggle_markdown_preview_id }}');
         const textarea = document.getElementById('{{ textarea_id }}');
         const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
@@ -59,6 +67,34 @@ One example use case is this:
         addTextareaValueChangeListener(textarea);
         addTextareaFocusChangeListener(textarea);
         addURLHashListener(textarea, markdownPreview);
+    }
+
+    function loadFullWidthStyle() {
+        const wrappers = document.getElementsByClassName('wrapper');
+        Array.from(wrappers).forEach((wrapper) => {
+            if (isFullWidthEnabled()) {
+                wrapper.style.maxWidth = 'none';
+            } else {
+                wrapper.style.maxWidth = null;
+            }
+        });
+    }
+
+    function addFullWidthToggleClickListener(toggleFullWidth) {
+        toggleFullWidth.addEventListener('click', () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (isFullWidthEnabled()) {
+                searchParams.delete('{{ full_width_id }}');
+            } else {
+                searchParams.set('{{ full_width_id }}', 'true');
+            }
+            document.location.search = searchParams.toString();
+        }, false);
+    }
+
+    function isFullWidthEnabled() {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.has('{{ full_width_id }}');
     }
 
     function addMarkdownPreviewToggleClickListener(toggleMarkdownPreview) {

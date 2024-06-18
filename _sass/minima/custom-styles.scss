@@ -58,6 +58,7 @@ body {
                 .toolbar {
                     display: flex;
                     justify-content: flex-end;
+                    gap: $default-spacing;
 
                     button {
                         @include relative-font-size(1);
