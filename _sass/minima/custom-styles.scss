@@ -75,6 +75,12 @@ body {
                             background: $button-hover-background-color;
                         }
                     }
+
+                    #toggle-full-width {
+                        @media not screen and (min-width: $on-laptop) {
+                            display: none;
+                        }
+                    }
                 }
 
                 .content {
