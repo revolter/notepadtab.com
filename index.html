@@ -64,9 +64,9 @@ One example use case is this:
         toggleMarkdownPreview.addEventListener('click', () => {
             const searchParams = new URLSearchParams(window.location.search);
             if (isMarkdownPreviewEnabled()) {
-                searchParams.delete('{{ toggle_markdown_preview_id }}');
+                searchParams.delete('{{ markdown_preview_id }}');
             } else {
-                searchParams.set('{{ toggle_markdown_preview_id }}', 'true');
+                searchParams.set('{{ markdown_preview_id }}', 'true');
             }
             document.location.search = searchParams.toString();
         }, false);
@@ -82,7 +82,7 @@ One example use case is this:
 
     function isMarkdownPreviewEnabled() {
         const searchParams = new URLSearchParams(window.location.search);
-        return searchParams.has('{{ toggle_markdown_preview_id }}');
+        return searchParams.has('{{ markdown_preview_id }}');
     }
 
     function loadValue(textarea, markdownPreview) {
