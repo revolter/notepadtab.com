@@ -6,9 +6,10 @@ layout: home
 <script src="{{ 'pako/dist/pako.min.js' | node_module_url | relative_url }}"></script>
 <script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
 
-{%- assign toggle_markdown_preview_id = 'toggle-markdown-preview' -%}
-{%- assign textarea_id = 'textarea' -%}
 {%- assign markdown_preview_id = 'markdown-preview' -%}
+{%- assign toggle_markdown_preview_id = 'toggle-markdown-preview' -%}
+
+{%- assign textarea_id = 'textarea' -%}
 {%- capture textarea_placeholder -%}
 {{ site.tagline }}.
 
