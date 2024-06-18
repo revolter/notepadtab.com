@@ -89,8 +89,8 @@ One example use case is this:
         const value = retrieveValue();
         const oldValue = textarea.value;
         textarea.value = value;
-        updateTitle(value);
         updateMarkdownPreviewIfNeeded(value, markdownPreview);
+        updateTitle(value, markdownPreview.textContent);
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
@@ -138,11 +138,13 @@ One example use case is this:
         window.location.hash = '#' + serialize(value);
     }
 
-    function updateTitle(value) {
+    function updateTitle(value, markdownValue) {
+        const finalValue = markdownValue || value;
+
         const titleParts = [];
         const customParts = [];
 
-        const rawTitle = value.split('\n', 1)[0];
+        const rawTitle = finalValue.split('\n', 1)[0];
         if (rawTitle !== '') {
             const truncatedTitle = truncate(rawTitle.trim(), 30);
             customParts.push(truncatedTitle);
