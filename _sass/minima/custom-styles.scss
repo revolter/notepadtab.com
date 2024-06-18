@@ -36,11 +36,6 @@ html {
 body {
     height: 100%;
 
-    code {
-        text-wrap-mode: wrap;
-        word-wrap: anywhere;
-    }
-
     .page-content {
         display: flex;
 
@@ -109,6 +104,11 @@ body {
 
                         @media not screen and (min-width: $on-laptop) {
                             overflow: auto;
+                        }
+
+                        code {
+                            text-wrap-mode: wrap;
+                            word-wrap: anywhere;
                         }
                     }
 
