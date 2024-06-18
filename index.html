@@ -2,8 +2,12 @@
 layout: home
 ---
 
-<script src="{{ 'pako/dist/pako.js' | node_module_url | relative_url }}"></script>
 <script src="{{ 'js-base64/base64.js' | node_module_url | relative_url }}"></script>
+<script src="{{ 'pako/dist/pako.min.js' | node_module_url | relative_url }}"></script>
+<script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
+
+{%- assign markdown_preview_id = 'markdown-preview' -%}
+{%- capture toggle_markdown_preview_id -%}toggle-{{ markdown_preview_id }}{%- endcapture -%}
 
 {%- assign textarea_id = 'textarea' -%}
 {%- capture textarea_placeholder -%}
@@ -25,7 +29,14 @@ One example use case is this:
 
 {%- endcapture -%}
 
-<textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
+<div class="toolbar">
+    <button id="{{ toggle_markdown_preview_id }}">Toggle Markdown preview</button>
+</div>
+
+<div class="content">
+    <textarea id="{{ textarea_id }}" placeholder="{{ textarea_placeholder }}" autofocus></textarea>
+    <div id="{{ markdown_preview_id }}" class="markdown-preview"></div>
+</div>
 
 <script>
     function main() {
@@ -37,18 +48,50 @@ One example use case is this:
     }
 
     function run() {
+        const toggleMarkdownPreview = document.getElementById('{{ toggle_markdown_preview_id }}');
         const textarea = document.getElementById('{{ textarea_id }}');
-        loadValue(textarea);
+        const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
+
+        loadMarkdownPreviewVisibility(markdownPreview);
+        addClickListener(toggleMarkdownPreview);
+
+        loadValue(textarea, markdownPreview);
         addValueListener(textarea);
         addFocusListener(textarea);
-        addHashListener(textarea);
+        addHashListener(textarea, markdownPreview);
     }
 
-    function loadValue(textarea) {
+    function addClickListener(toggleMarkdownPreview) {
+        toggleMarkdownPreview.addEventListener('click', () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (isMarkdownPreviewEnabled()) {
+                searchParams.delete('{{ markdown_preview_id }}');
+            } else {
+                searchParams.set('{{ markdown_preview_id }}', 'true');
+            }
+            document.location.search = searchParams.toString();
+        }, false);
+    }
+
+    function loadMarkdownPreviewVisibility(markdownPreview) {
+        if (isMarkdownPreviewEnabled()) {
+            markdownPreview.style.display = 'block';
+        } else {
+            markdownPreview.style.display = 'none';
+        }
+    }
+
+    function isMarkdownPreviewEnabled() {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.has('{{ markdown_preview_id }}');
+    }
+
+    function loadValue(textarea, markdownPreview) {
         const value = retrieveValue();
         const oldValue = textarea.value;
         textarea.value = value;
-        updateTitle(value);
+        updateMarkdownPreviewIfNeeded(value, markdownPreview);
+        updateTitle(value, markdownPreview.textContent);
         if (oldValue === '') {
             textarea.selectionStart = value.length;
         }
@@ -66,26 +109,23 @@ One example use case is this:
 
     function addValueListener(textarea) {
         textarea.addEventListener('input', debounce((event) => {
-            const value = event.target.value;
-            onValueUpdate(value);
+            storeValue(event.target.value);
         }, 300), false);
     }
 
     function addFocusListener(textarea) {
         textarea.addEventListener('blur', () => {
-            const value = textarea.value;
-            onValueUpdate(value);
+            storeValue(textarea.value);
         }, false);
 
         window.addEventListener('blur', () => {
-            const value = textarea.value;
-            onValueUpdate(value);
+            storeValue(textarea.value);
         }, false);
     }
 
-    function addHashListener(textarea) {
+    function addHashListener(textarea, markdownPreview) {
         window.addEventListener('hashchange', () => {
-            loadValue(textarea);
+            loadValue(textarea, markdownPreview);
         });
     }
 
@@ -95,22 +135,54 @@ One example use case is this:
         return deserialize(hash.substring(1));
     }
 
-    function onValueUpdate(value) {
-        storeValue(value);
-        updateTitle(value);
-    }
-
     function storeValue(value) {
         window.location.hash = '#' + serialize(value);
     }
 
-    function updateTitle(value) {
-        document.title = '{{ site.tagline }}';
+    function updateTitle(value, markdownValue) {
+        const finalValue = markdownValue || value;
 
-        const rawTitle = value.split('\n', 1)[0];
-        if (rawTitle === '') { return; }
-        const truncatedTitle = truncate(rawTitle.trim(), 30);
-        document.title = truncatedTitle + ' | ' + document.title;
+        const titleParts = [];
+        const customParts = [];
+
+        const rawTitle = finalValue.split('\n', 1)[0];
+        if (rawTitle !== '') {
+            const truncatedTitle = truncate(rawTitle.trim(), 30);
+            customParts.push(truncatedTitle);
+        }
+
+        if (isMarkdownPreviewEnabled()) {
+            customParts.push('Markdown');
+        }
+
+        if (customParts.length > 0) {
+            titleParts.push(customParts.join(' - '));
+        }
+        titleParts.push('{{ site.tagline }}');
+
+        document.title = titleParts.join(' | ');
+    }
+
+    function updateMarkdownPreviewIfNeeded(value, markdownPreview) {
+        if (!isMarkdownPreviewEnabled()) { return; }
+
+        const converter = new showdown.Converter({
+            omitExtraWLInCodeBlocks: true,
+            noHeaderId: true,
+            parseImgDimensions: true,
+            simplifiedAutoLink: true,
+            literalMidWordUnderscores: true,
+            strikethrough: true,
+            tables: true,
+            tasklists: true,
+            smoothLivePreview: true,
+            simpleLineBreaks: true,
+            openLinksInNewWindow: true,
+            emoji: true,
+            splitAdjacentBlockquotes: true
+        });
+        const html = converter.makeHtml(value);
+        markdownPreview.innerHTML = html;
     }
 
     function truncate(string, limit) {

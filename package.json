@@ -4,7 +4,8 @@
     },
     "dependencies": {
         "js-base64": "*",
-        "pako": "*"
+        "pako": "*",
+        "showdown": "*"
     },
     "devDependencies": {
         "watchy": "*"
