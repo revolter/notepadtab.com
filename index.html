@@ -7,7 +7,7 @@ layout: home
 <script src="{{ 'showdown/dist/showdown.min.js' | node_module_url | relative_url }}"></script>
 
 {%- assign markdown_preview_id = 'markdown-preview' -%}
-{%- assign toggle_markdown_preview_id = 'toggle-markdown-preview' -%}
+{%- capture toggle_markdown_preview_id -%}toggle-{{ markdown_preview_id }}{%- endcapture -%}
 
 {%- assign textarea_id = 'textarea' -%}
 {%- capture textarea_placeholder -%}
