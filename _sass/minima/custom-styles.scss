@@ -103,7 +103,7 @@ body {
                         @include relative-font-size(1);
                     }
 
-                    .markdown-preview {
+                    #markdown-preview {
                         border-style: solid;
                         border-width: 1px;
 
@@ -112,7 +112,7 @@ body {
                         }
                     }
 
-                    textarea, .markdown-preview {
+                    textarea, #markdown-preview {
                         flex-grow: 1;
                         flex-basis: 0;
 
