@@ -53,15 +53,15 @@ One example use case is this:
         const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
 
         loadMarkdownPreviewVisibility(markdownPreview);
-        addClickListener(toggleMarkdownPreview);
+        addMarkdownPreviewToggleClickListener(toggleMarkdownPreview);
 
         loadValue(textarea, markdownPreview);
-        addValueListener(textarea);
-        addFocusListener(textarea);
-        addHashListener(textarea, markdownPreview);
+        addTextareaValueChangeListener(textarea);
+        addTextareaFocusChangeListener(textarea);
+        addURLHashListener(textarea, markdownPreview);
     }
 
-    function addClickListener(toggleMarkdownPreview) {
+    function addMarkdownPreviewToggleClickListener(toggleMarkdownPreview) {
         toggleMarkdownPreview.addEventListener('click', () => {
             const searchParams = new URLSearchParams(window.location.search);
             if (isMarkdownPreviewEnabled()) {
@@ -107,13 +107,13 @@ One example use case is this:
         };
     };
 
-    function addValueListener(textarea) {
+    function addTextareaValueChangeListener(textarea) {
         textarea.addEventListener('input', debounce((event) => {
             storeValue(event.target.value);
         }, 300), false);
     }
 
-    function addFocusListener(textarea) {
+    function addTextareaFocusChangeListener(textarea) {
         textarea.addEventListener('blur', () => {
             storeValue(textarea.value);
         }, false);
@@ -123,7 +123,7 @@ One example use case is this:
         }, false);
     }
 
-    function addHashListener(textarea, markdownPreview) {
+    function addURLHashListener(textarea, markdownPreview) {
         window.addEventListener('hashchange', () => {
             loadValue(textarea, markdownPreview);
         });
