@@ -58,6 +58,7 @@ body {
                 .toolbar {
                     display: flex;
                     justify-content: flex-end;
+                    gap: $default-spacing;
 
                     button {
                         @include relative-font-size(1);
@@ -73,7 +74,12 @@ body {
                         &:hover {
                             background: $button-hover-background-color;
                         }
+                    }
 
+                    #toggle-full-width {
+                        @media not screen and (min-width: $on-laptop) {
+                            display: none;
+                        }
                     }
                 }
 
