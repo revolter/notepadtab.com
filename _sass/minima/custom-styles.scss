@@ -36,11 +36,6 @@ html {
 body {
     height: 100%;
 
-    code {
-        text-wrap-mode: wrap;
-        word-wrap: anywhere;
-    }
-
     .page-content {
         display: flex;
 
@@ -103,16 +98,21 @@ body {
                         @include relative-font-size(1);
                     }
 
-                    .markdown-preview {
+                    #markdown-preview {
                         border-style: solid;
                         border-width: 1px;
 
                         @media not screen and (min-width: $on-laptop) {
                             overflow: auto;
                         }
+
+                        * {
+                            text-wrap-mode: wrap;
+                            word-wrap: anywhere;
+                        }
                     }
 
-                    textarea, .markdown-preview {
+                    textarea, #markdown-preview {
                         flex-grow: 1;
                         flex-basis: 0;
 
