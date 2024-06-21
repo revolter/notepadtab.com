@@ -12,6 +12,7 @@ layout: home
 {%- assign markdown_preview_id = 'markdown-preview' -%}
 {%- capture toggle_markdown_preview_id -%}toggle-{{ markdown_preview_id }}{%- endcapture -%}
 
+{%- assign value_id = 'value' -%}
 {%- assign textarea_id = 'textarea' -%}
 {%- capture textarea_placeholder -%}
 {{ site.tagline }}.
@@ -63,10 +64,11 @@ One example use case is this:
         loadMarkdownPreviewVisibility(markdownPreview);
         addMarkdownPreviewToggleClickListener(toggleMarkdownPreview);
 
+        migrateValueIfNeeded();
         loadValue(textarea, markdownPreview);
-        addTextareaValueChangeListener(textarea);
-        addTextareaFocusChangeListener(textarea);
-        addURLHashListener(textarea, markdownPreview);
+        addTextareaValueChangeListener(textarea, markdownPreview);
+        addTextareaFocusChangeListener(textarea, markdownPreview);
+        addHistoryPopstateListener(textarea, markdownPreview);
     }
 
     function loadFullWidthStyle() {
@@ -122,6 +124,12 @@ One example use case is this:
         return searchParams.has('{{ markdown_preview_id }}');
     }
 
+    function migrateValueIfNeeded() {
+        let oldValue = retrieveDeprecatedStyleValue();
+        if (oldValue === '') { return; }
+        storeValue(oldValue);
+    }
+
     function loadValue(textarea, markdownPreview) {
         const value = retrieveValue();
         const oldValue = textarea.value;
@@ -143,36 +151,60 @@ One example use case is this:
         };
     };
 
-    function addTextareaValueChangeListener(textarea) {
+    function addTextareaValueChangeListener(textarea, markdownPreview) {
         textarea.addEventListener('input', debounce((event) => {
-            storeValue(event.target.value);
+            onValueUpdate(event.target.value, textarea, markdownPreview);
         }, 300), false);
     }
 
-    function addTextareaFocusChangeListener(textarea) {
+    function addTextareaFocusChangeListener(textarea, markdownPreview) {
         textarea.addEventListener('blur', () => {
-            storeValue(textarea.value);
+            onValueUpdate(textarea.value, textarea, markdownPreview);
         }, false);
 
         window.addEventListener('blur', () => {
-            storeValue(textarea.value);
+            onValueUpdate(textarea.value, textarea, markdownPreview);
         }, false);
     }
 
-    function addURLHashListener(textarea, markdownPreview) {
-        window.addEventListener('hashchange', () => {
+    function addHistoryPopstateListener(textarea, markdownPreview) {
+        window.addEventListener('popstate', () => {
             loadValue(textarea, markdownPreview);
         });
     }
 
-    function retrieveValue() {
+    function retrieveDeprecatedStyleValue() {
         const hash = window.location.hash;
         if (hash === '') { return ''; }
         return deserialize(hash.substring(1));
     }
 
+    function retrieveValue() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const serializedValue = searchParams.get('{{ value_id }}');
+        if (serializedValue === null || serializedValue === '') { return ''; }
+        return deserialize(serializedValue);
+    }
+
+    function onValueUpdate(value, textarea, markdownPreview) {
+        const oldValue = retrieveValue();
+        if (value === oldValue) { return; }
+        onValueChange(value, textarea, markdownPreview);
+    }
+
+    function onValueChange(value, textarea, markdownPreview) {
+        storeValue(value);
+        updateMarkdownPreviewIfNeeded(value, markdownPreview);
+        updateTitle(value, markdownPreview.textContent);
+    }
+
     function storeValue(value) {
-        window.location.hash = '#' + serialize(value);
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('{{ value_id }}', serialize(value));
+
+        const newURL = new URL(window.location);
+        newURL.search = searchParams.toString();
+        history.pushState(null, '', newURL);
     }
 
     function updateTitle(value, markdownValue) {
