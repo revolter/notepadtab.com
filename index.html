@@ -193,9 +193,9 @@ One example use case is this:
     }
 
     function onValueChange(value, textarea, markdownPreview) {
-        storeValue(value);
         updateMarkdownPreviewIfNeeded(value, markdownPreview);
         updateTitle(value, markdownPreview.textContent);
+        storeValue(value);
     }
 
     function storeValue(value) {
@@ -204,7 +204,7 @@ One example use case is this:
 
         const newURL = new URL(window.location);
         newURL.search = searchParams.toString();
-        history.pushState(null, '', newURL);
+        history.pushState(null, document.title, newURL);
     }
 
     function updateTitle(value, markdownValue) {
