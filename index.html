@@ -162,6 +162,7 @@ One example use case is this:
     function addURLHashListener(textarea, markdownPreview) {
         window.addEventListener('hashchange', () => {
             loadValue(textarea, markdownPreview);
+            textarea.focus();
         });
     }
 
