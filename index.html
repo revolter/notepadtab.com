@@ -57,14 +57,14 @@ One example use case is this:
 
     function run() {
         const toggleFullWidth = document.getElementById('{{ toggle_full_width_id }}');
-        loadFullWidthStyle();
+        loadFullWidthStyle(toggleFullWidth);
         addFullWidthToggleClickListener(toggleFullWidth);
 
         const toggleMarkdownPreview = document.getElementById('{{ toggle_markdown_preview_id }}');
         const textarea = document.getElementById('{{ textarea_id }}');
         const markdownPreview = document.getElementById('{{ markdown_preview_id }}');
 
-        loadMarkdownPreviewVisibility(markdownPreview);
+        loadMarkdownPreviewVisibility(toggleMarkdownPreview, markdownPreview);
         addMarkdownPreviewToggleClickListener(toggleMarkdownPreview);
 
         loadValue(textarea, markdownPreview);
@@ -73,11 +73,11 @@ One example use case is this:
         addURLHashListener(textarea, markdownPreview);
 
         const toggleReadOnly = document.getElementById('{{ toggle_read_only_id }}');
-        loadReadOnlyStyle(textarea);
+        loadReadOnlyStyle(toggleReadOnly, textarea);
         addReadOnlyToggleClickListener(toggleReadOnly);
     }
 
-    function loadFullWidthStyle() {
+    function loadFullWidthStyle(toggleFullWidth) {
         const wrappers = document.getElementsByClassName('wrapper');
         Array.from(wrappers).forEach((wrapper) => {
             if (isFullWidthEnabled()) {
@@ -86,6 +86,9 @@ One example use case is this:
                 wrapper.style.maxWidth = null;
             }
         });
+        if (isFullWidthEnabled()) {
+            toggleFullWidth.classList.add('active');
+        }
     }
 
     function addFullWidthToggleClickListener(toggleFullWidth) {
@@ -104,9 +107,11 @@ One example use case is this:
         }, false);
     }
 
-    function loadMarkdownPreviewVisibility(markdownPreview) {
+    function loadMarkdownPreviewVisibility(toggleMarkdownPreview, markdownPreview) {
         if (isMarkdownPreviewEnabled()) {
             markdownPreview.style.display = null;
+
+            toggleMarkdownPreview.classList.add('active');
         } else {
             markdownPreview.style.display = 'none';
         }
@@ -116,13 +121,15 @@ One example use case is this:
         return isSearchParamEnabled('{{ markdown_preview_id }}');
     }
 
-    function loadReadOnlyStyle(textarea) {
+    function loadReadOnlyStyle(toggleReadOnly, textarea) {
         if (isReadOnlyEnabled()) {
             if (isMarkdownPreviewEnabled()) {
                 textarea.style.display = 'none';
             } else {
                 textarea.readOnly = true;
             }
+
+            toggleReadOnly.classList.add('active');
         } else {
             textarea.style.display = null;
             textarea.readOnly = false;
