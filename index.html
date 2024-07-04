@@ -101,8 +101,7 @@ One example use case is this:
     }
 
     function isFullWidthEnabled() {
-        const searchParams = new URLSearchParams(window.location.search);
-        return searchParams.has('{{ full_width_id }}');
+        return isSearchParamEnabled('{{ full_width_id }}');
     }
 
     function addMarkdownPreviewToggleClickListener(toggleMarkdownPreview) {
@@ -126,8 +125,7 @@ One example use case is this:
     }
 
     function isMarkdownPreviewEnabled() {
-        const searchParams = new URLSearchParams(window.location.search);
-        return searchParams.has('{{ markdown_preview_id }}');
+        return isSearchParamEnabled('{{ markdown_preview_id }}');
     }
 
     function loadReadOnlyStyle(textarea) {
@@ -156,8 +154,7 @@ One example use case is this:
     }
 
     function isReadOnlyEnabled() {
-        const searchParams = new URLSearchParams(window.location.search);
-        return searchParams.has('{{ read_only_id }}');
+        return isSearchParamEnabled('{{ read_only_id }}');
     }
 
     function loadValue(textarea, markdownPreview) {
@@ -258,6 +255,11 @@ One example use case is this:
         });
         const html = converter.makeHtml(value);
         markdownPreview.innerHTML = html;
+    }
+
+    function isSearchParamEnabled(param) {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.has(param);
     }
 
     function truncate(string, limit) {
