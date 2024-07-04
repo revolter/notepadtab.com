@@ -1,16 +1,16 @@
 $default-spacing: 8px;
 
-$lm-disabled-text-color: #aaaaaa;
-$dm-disabled-text-color: #636363;
+$lm-disabled-text-color: hsl(0 0% 67%);
+$dm-disabled-text-color: hsl(0 0% 39%);
 
-$lm-inactive-toggle-text-color: #444444;
-$dm-inactive-toggle-text-color: #888888;
+$lm-inactive-toggle-text-color: hsl(0 0% 27%);
+$dm-inactive-toggle-text-color: hsl(0 0% 53%);
 
-$lm-button-background-color: #f0f0f0;
-$lm-button-hover-background-color: #e1e1e1;
+$lm-button-background-color: hsl(0 0% 94%);
+$lm-button-hover-background-color: hsl(0 0% 88%);
 
-$dm-button-background-color: #333333;
-$dm-button-hover-background-color: #444444;
+$dm-button-background-color: hsl(0 0% 20%);
+$dm-button-hover-background-color: hsl(0 0% 27%);
 
 $disabled-text-color: $lm-disabled-text-color;
 $inactive-toggle-text-color: $lm-inactive-toggle-text-color;
