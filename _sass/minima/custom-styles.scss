@@ -9,25 +9,20 @@ $dm-button-hover-background-color: #444444;
 $button-background-color: $lm-button-background-color;
 $button-hover-background-color: $lm-button-hover-background-color;
 
-@if $color-scheme-auto {
-    :root {
-        --io-button-background-color: #{$lm-button-background-color};
-        --io-button-hover-background-color: #{$lm-button-hover-background-color};
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --io-button-background-color: #{$dm-button-background-color};
-            --io-button-hover-background-color: #{$dm-button-hover-background-color};
-        }
-    }
-
-    $button-background-color: var(--io-button-background-color);
-    $button-hover-background-color: var(--io-button-hover-background-color);
-} @else if $color-scheme-dark {
-    $button-background-color: $dm-button-background-color;
-    $button-hover-background-color: $dm-button-hover-background-color;
+:root {
+    --io-button-background-color: #{$lm-button-background-color};
+    --io-button-hover-background-color: #{$lm-button-hover-background-color};
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --io-button-background-color: #{$dm-button-background-color};
+        --io-button-hover-background-color: #{$dm-button-hover-background-color};
+    }
+}
+
+$button-background-color: var(--io-button-background-color);
+$button-hover-background-color: var(--io-button-hover-background-color);
 
 html {
     height: 100%;
