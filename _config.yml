@@ -33,3 +33,4 @@ node_modules:
         js: assets/js
 sass:
     style: compressed
+    sourcemap: development
