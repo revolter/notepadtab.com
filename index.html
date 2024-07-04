@@ -12,6 +12,9 @@ layout: home
 {%- assign markdown_preview_id = 'markdown-preview' -%}
 {%- capture toggle_markdown_preview_id -%}toggle-{{ markdown_preview_id }}{%- endcapture -%}
 
+{%- assign read_only_id = 'read-only' -%}
+{%- capture toggle_read_only_id -%}toggle-{{ read_only_id }}{%- endcapture -%}
+
 {%- assign textarea_id = 'textarea' -%}
 {%- capture textarea_placeholder -%}
 {{ site.tagline }}.
@@ -35,6 +38,7 @@ One example use case is this:
 <div class="toolbar">
     <button id="{{ toggle_full_width_id }}">Toggle full-width</button>
     <button id="{{ toggle_markdown_preview_id }}">Toggle Markdown preview</button>
+    <button id="{{ toggle_read_only_id }}">Toggle read-only</button>
 </div>
 
 <div class="content">
@@ -67,6 +71,10 @@ One example use case is this:
         addTextareaValueChangeListener(textarea);
         addTextareaFocusChangeListener(textarea);
         addURLHashListener(textarea, markdownPreview);
+
+        const toggleReadOnly = document.getElementById('{{ toggle_read_only_id }}');
+        loadReadOnlyStyle(textarea);
+        addReadOnlyToggleClickListener(toggleReadOnly);
     }
 
     function loadFullWidthStyle() {
@@ -120,6 +128,36 @@ One example use case is this:
     function isMarkdownPreviewEnabled() {
         const searchParams = new URLSearchParams(window.location.search);
         return searchParams.has('{{ markdown_preview_id }}');
+    }
+
+    function loadReadOnlyStyle(textarea) {
+        if (isReadOnlyEnabled()) {
+            if (isMarkdownPreviewEnabled()) {
+                textarea.style.display = 'none';
+            } else {
+                textarea.readOnly = true;
+            }
+        } else {
+            textarea.style.display = null;
+            textarea.readOnly = false;
+        }
+    }
+
+    function addReadOnlyToggleClickListener(toggleReadOnly) {
+        toggleReadOnly.addEventListener('click', () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (isReadOnlyEnabled()) {
+                searchParams.delete('{{ read_only_id }}');
+            } else {
+                searchParams.set('{{ read_only_id }}', 'true');
+            }
+            document.location.search = searchParams.toString();
+        }, false);
+    }
+
+    function isReadOnlyEnabled() {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.has('{{ read_only_id }}');
     }
 
     function loadValue(textarea, markdownPreview) {

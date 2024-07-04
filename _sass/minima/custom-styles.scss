@@ -1,26 +1,33 @@
 $default-spacing: 8px;
 
+$lm-disabled-text-color: #aaaaaa;
+$dm-disabled-text-color: #636363;
+
 $lm-button-background-color: #f0f0f0;
 $lm-button-hover-background-color: #e1e1e1;
 
 $dm-button-background-color: #333333;
 $dm-button-hover-background-color: #444444;
 
+$disabled-text-color: $lm-disabled-text-color;
 $button-background-color: $lm-button-background-color;
 $button-hover-background-color: $lm-button-hover-background-color;
 
 :root {
+    --io-disabled-text-color: #{$lm-disabled-text-color};
     --io-button-background-color: #{$lm-button-background-color};
     --io-button-hover-background-color: #{$lm-button-hover-background-color};
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --io-disabled-text-color: #{$dm-disabled-text-color};
         --io-button-background-color: #{$dm-button-background-color};
         --io-button-hover-background-color: #{$dm-button-hover-background-color};
     }
 }
 
+$disabled-text-color: var(--io-disabled-text-color);
 $button-background-color: var(--io-button-background-color);
 $button-hover-background-color: var(--io-button-hover-background-color);
 
@@ -91,6 +98,14 @@ body {
                     textarea {
                         color: $text-color;
                         @include relative-font-size(1);
+
+                        &:read-only {
+                            color: $disabled-text-color;
+
+                            &:focus {
+                                outline: none;
+                            }
+                        }
                     }
 
                     #markdown-preview {
