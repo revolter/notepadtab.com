@@ -90,13 +90,7 @@ One example use case is this:
 
     function addFullWidthToggleClickListener(toggleFullWidth) {
         toggleFullWidth.addEventListener('click', () => {
-            const searchParams = new URLSearchParams(window.location.search);
-            if (isFullWidthEnabled()) {
-                searchParams.delete('{{ full_width_id }}');
-            } else {
-                searchParams.set('{{ full_width_id }}', 'true');
-            }
-            document.location.search = searchParams.toString();
+            toggleSearchParam('{{ full_width_id }}');
         }, false);
     }
 
@@ -106,13 +100,7 @@ One example use case is this:
 
     function addMarkdownPreviewToggleClickListener(toggleMarkdownPreview) {
         toggleMarkdownPreview.addEventListener('click', () => {
-            const searchParams = new URLSearchParams(window.location.search);
-            if (isMarkdownPreviewEnabled()) {
-                searchParams.delete('{{ markdown_preview_id }}');
-            } else {
-                searchParams.set('{{ markdown_preview_id }}', 'true');
-            }
-            document.location.search = searchParams.toString();
+            toggleSearchParam('{{ markdown_preview_id }}');
         }, false);
     }
 
@@ -143,13 +131,7 @@ One example use case is this:
 
     function addReadOnlyToggleClickListener(toggleReadOnly) {
         toggleReadOnly.addEventListener('click', () => {
-            const searchParams = new URLSearchParams(window.location.search);
-            if (isReadOnlyEnabled()) {
-                searchParams.delete('{{ read_only_id }}');
-            } else {
-                searchParams.set('{{ read_only_id }}', 'true');
-            }
-            document.location.search = searchParams.toString();
+            toggleSearchParam('{{ read_only_id }}');
         }, false);
     }
 
@@ -255,6 +237,16 @@ One example use case is this:
         });
         const html = converter.makeHtml(value);
         markdownPreview.innerHTML = html;
+    }
+
+    function toggleSearchParam(param) {
+        const searchParams = new URLSearchParams(window.location.search);
+        if (isSearchParamEnabled(param)) {
+            searchParams.delete(param);
+        } else {
+            searchParams.set(param, 'true');
+        }
+        document.location.search = searchParams.toString();
     }
 
     function isSearchParamEnabled(param) {
