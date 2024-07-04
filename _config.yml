@@ -31,3 +31,6 @@ minima:
 node_modules:
     assets:
         js: assets/js
+sass:
+    style: compressed
+    sourcemap: development
