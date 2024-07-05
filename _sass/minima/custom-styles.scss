@@ -1,33 +1,42 @@
 $default-spacing: 8px;
 
-$lm-button-background-color: #f0f0f0;
-$lm-button-hover-background-color: #e1e1e1;
+$lm-disabled-text-color: hsl(0 0% 37%);
+$dm-disabled-text-color: hsl(0 0% 53%);
 
-$dm-button-background-color: #333333;
-$dm-button-hover-background-color: #444444;
+$lm-inactive-toggle-text-color: hsl(0 0% 27%);
+$dm-inactive-toggle-text-color: hsl(0 0% 53%);
 
+$lm-button-background-color: hsl(0 0% 94%);
+$lm-button-hover-background-color: hsl(0 0% 88%);
+
+$dm-button-background-color: hsl(0 0% 20%);
+$dm-button-hover-background-color: hsl(0 0% 27%);
+
+$disabled-text-color: $lm-disabled-text-color;
+$inactive-toggle-text-color: $lm-inactive-toggle-text-color;
 $button-background-color: $lm-button-background-color;
 $button-hover-background-color: $lm-button-hover-background-color;
 
-@if $color-scheme-auto {
-    :root {
-        --io-button-background-color: #{$lm-button-background-color};
-        --io-button-hover-background-color: #{$lm-button-hover-background-color};
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --io-button-background-color: #{$dm-button-background-color};
-            --io-button-hover-background-color: #{$dm-button-hover-background-color};
-        }
-    }
-
-    $button-background-color: var(--io-button-background-color);
-    $button-hover-background-color: var(--io-button-hover-background-color);
-} @else if $color-scheme-dark {
-    $button-background-color: $dm-button-background-color;
-    $button-hover-background-color: $dm-button-hover-background-color;
+:root {
+    --io-disabled-text-color: #{$lm-disabled-text-color};
+    --io-inactive-toggle-text-color: #{$lm-inactive-toggle-text-color};
+    --io-button-background-color: #{$lm-button-background-color};
+    --io-button-hover-background-color: #{$lm-button-hover-background-color};
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --io-disabled-text-color: #{$dm-disabled-text-color};
+        --io-inactive-toggle-text-color: #{$dm-inactive-toggle-text-color};
+        --io-button-background-color: #{$dm-button-background-color};
+        --io-button-hover-background-color: #{$dm-button-hover-background-color};
+    }
+}
+
+$disabled-text-color: var(--io-disabled-text-color);
+$inactive-toggle-text-color: var(--io-inactive-toggle-text-color);
+$button-background-color: var(--io-button-background-color);
+$button-hover-background-color: var(--io-button-hover-background-color);
 
 html {
     height: 100%;
@@ -57,7 +66,7 @@ body {
 
                     button {
                         @include relative-font-size(1);
-                        color: $text-color;
+                        color: $inactive-toggle-text-color;
                         background: $button-background-color;
                         border-style: solid;
                         border-width: 1px;
@@ -68,6 +77,13 @@ body {
                         transition: background 150ms linear;
                         &:hover {
                             background: $button-hover-background-color;
+                        }
+
+                        &.active {
+                            color: $text-color;
+                            border-style: solid;
+                            border-width: 1px;
+                            border-color: $text-color;
                         }
                     }
 
@@ -96,6 +112,14 @@ body {
                     textarea {
                         color: $text-color;
                         @include relative-font-size(1);
+
+                        &:read-only {
+                            color: $disabled-text-color;
+
+                            &:focus {
+                                outline: none;
+                            }
+                        }
                     }
 
                     #markdown-preview {
