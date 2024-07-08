@@ -1,7 +1,7 @@
 ---
 ---
 
-{% assign favicon_version = 1 %}
+{% assign favicon_version = 1 -%}
 
 {
     "name": "{{ site.title }}",
