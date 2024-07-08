@@ -3,6 +3,7 @@
         "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace --baseurl '/notepadtab.com'"
     },
     "dependencies": {
+        "cli-real-favicon": "*",
         "js-base64": "*",
         "pako": "*",
         "showdown": "*"
