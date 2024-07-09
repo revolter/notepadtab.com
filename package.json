@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace --baseurl '/notepadtab.com'",
+        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --host '0.0.0.0' --trace --baseurl '/notepadtab.com'",
 
         "pregenerate-favicon": "mkdir -p assets/favicon",
         "generate-favicon": "mkdir -p assets/favicon && real-favicon generate sources/favicon/faviconDescription.json sources/favicon/faviconData.json assets/favicon",
