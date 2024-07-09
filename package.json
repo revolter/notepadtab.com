@@ -14,12 +14,12 @@
         "check-favicon-update": "real-favicon check-for-update --fail-on-update sources/favicon/faviconData.json"
     },
     "dependencies": {
-        "cli-real-favicon": "*",
         "js-base64": "*",
         "pako": "*",
         "showdown": "*"
     },
     "devDependencies": {
+        "cli-real-favicon": "*",
         "watchy": "*"
     }
 }
