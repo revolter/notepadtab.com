@@ -5,10 +5,10 @@
         "pregenerate-favicon": "mkdir -p assets/images/favicon",
         "generate-favicon": "real-favicon generate sources/favicon/faviconDescription.json sources/favicon/faviconData.json assets/images/favicon",
         "postgenerate-favicon": "for file in assets/images/favicon/browserconfig.xml assets/images/favicon/site.webmanifest; do perl -pi -e 'print \"---\\n---\\n\\n\" if $. == 1' \"$file\"; done",
-        "preinject-favicon": "mkdir -p _includes && touch _includes/custom-head.html",
-        "inject-favicon": "real-favicon inject sources/favicon/faviconData.json _includes _includes/custom-head.html",
-        "postinject-favicon": "for file in _includes/custom-head.html; do perl -pi -e 's/<\\/?(html|head|body)>\\n?//g' \"$file\"; done",
-        "linkify-favicon": "for file in assets/images/favicon/browserconfig.xml assets/images/favicon/site.webmanifest _includes/custom-head.html; do perl -pi -e 's/\\/assets\\/.+(?=\\?v=\\d+)/{% link $& %}/g' \"$file\"; done",
+        "preinject-favicon": "mkdir -p _includes && touch _includes/favicon.html",
+        "inject-favicon": "real-favicon inject sources/favicon/faviconData.json _includes _includes/favicon.html",
+        "postinject-favicon": "for file in _includes/favicon.html; do perl -pi -e 's/<\\/?(html|head|body)>\\n?//g' \"$file\"; done",
+        "linkify-favicon": "for file in assets/images/favicon/browserconfig.xml assets/images/favicon/site.webmanifest _includes/favicon.html; do perl -pi -e 's/\\/assets\\/.+(?=\\?v=\\d+)/{% link $& %}/g' \"$file\"; done",
         "update-favicon": "npm run generate-favicon && npm run inject-favicon && npm run linkify-favicon",
 
         "check-favicon-update": "real-favicon check-for-update --fail-on-update sources/favicon/faviconData.json"
