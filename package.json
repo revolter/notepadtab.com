@@ -1,6 +1,11 @@
 {
     "scripts": {
-        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace --baseurl '/notepadtab.com'"
+        "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --trace --baseurl '/notepadtab.com'",
+
+        "pregenerate-favicon": "mkdir -p assets/favicon",
+        "generate-favicon": "mkdir -p assets/favicon && real-favicon generate sources/favicon/faviconDescription.json sources/favicon/faviconData.json assets/favicon",
+        "postgenerate-favicon": "for file in assets/favicon/browserconfig.xml assets/favicon/site.webmanifest; do perl -pi -e 'print \"---\\n---\\n\\n\" if $. == 1' \"$file\"; perl -pi -e 's/\\/assets\\/.+(?=\\?v=\\d+)/{% link $& %}/g' \"$file\"; done",
+        "check-favicon-update": "real-favicon check-for-update --fail-on-update sources/favicon/faviconData.json"
     },
     "dependencies": {
         "cli-real-favicon": "*",
