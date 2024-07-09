@@ -24,8 +24,8 @@ https://mermaid.live.
 
 ### Favicon
 
-- Check if RealFaviconGenerator got updated
-  (https://realfavicongenerator.net/change_log) by running
+- Check if RealFaviconGenerator
+  [got updated](https://realfavicongenerator.net/change_log) by running
   ```sh
   npm run check-favicon-update
   ```
