@@ -34,6 +34,8 @@ https://mermaid.live.
   ```sh
   npm run generate-favicon
   ```
+- Check the generated (and deployed) favicon assets by going to
+  https://realfavicongenerator.net/favicon_checker?protocol=https&site=notepadtab.com
 
 ## Usage
 
