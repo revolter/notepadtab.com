@@ -6,12 +6,12 @@
     "short_name": "Notepad Tab",
     "icons": [
         {
-            "src": "{% link /assets/favicon/android-chrome-192x192.png %}?v=1",
+            "src": "{% link /assets/favicon/android-chrome-192x192.png %}?v=2",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "{% link /assets/favicon/android-chrome-512x512.png %}?v=1",
+            "src": "{% link /assets/favicon/android-chrome-512x512.png %}?v=2",
             "sizes": "512x512",
             "type": "image/png"
         }

@@ -44,8 +44,7 @@
 			}
 		},
 		"safariPinnedTab": {
-			"pictureAspect": "blackAndWhite",
-			"threshold": 50,
+			"pictureAspect": "silhouette",
 			"themeColor": "#5bbad5"
 		}
 	},
@@ -59,6 +58,6 @@
 	},
 	"versioning": {
 		"paramName": "v",
-		"paramValue": "1"
+		"paramValue": "2"
 	}
 }
