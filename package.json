@@ -3,7 +3,7 @@
         "serve": "watchy --watch '_config.yml' --watch '_plugins/*.rb' -- bundle exec jekyll serve --host '0.0.0.0' --trace --baseurl '/notepadtab.com'",
 
         "pregenerate-favicon": "mkdir -p assets/images/favicon",
-        "generate-favicon": "mkdir -p assets/images/favicon && real-favicon generate sources/favicon/faviconDescription.json sources/favicon/faviconData.json assets/images/favicon",
+        "generate-favicon": "real-favicon generate sources/favicon/faviconDescription.json sources/favicon/faviconData.json assets/images/favicon",
         "postgenerate-favicon": "for file in assets/images/favicon/browserconfig.xml assets/images/favicon/site.webmanifest; do perl -pi -e 'print \"---\\n---\\n\\n\" if $. == 1' \"$file\"; perl -pi -e 's/\\/assets\\/.+(?=\\?v=\\d+)/{% link $& %}/g' \"$file\"; done",
         "check-favicon-update": "real-favicon check-for-update --fail-on-update sources/favicon/faviconData.json"
     },
