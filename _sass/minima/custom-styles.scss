@@ -149,4 +149,8 @@ body {
             }
         }
     }
+
+    .feed-subscribe, .footer-col > p {
+        display: none;
+    }
 }
