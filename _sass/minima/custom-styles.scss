@@ -149,4 +149,8 @@ body {
             }
         }
     }
+
+    .feed-subscribe, .contact-list, .footer-col > p {
+        display: none;
+    }
 }
