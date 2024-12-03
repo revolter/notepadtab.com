@@ -38,6 +38,9 @@ $inactive-toggle-text-color: var(--io-inactive-toggle-text-color);
 $button-background-color: var(--io-button-background-color);
 $button-hover-background-color: var(--io-button-hover-background-color);
 
+$on-monitor: 1366px !default;
+$on-big-monitor: 1600px !default;
+
 html {
     height: 100%;
 }
@@ -52,6 +55,14 @@ body {
             display: flex;
             flex-grow: 1;
             justify-content: center;
+
+            @media screen and (min-width: $on-monitor) {
+                max-width: 900px;
+            }
+
+            @media screen and (min-width: $on-big-monitor) {
+                max-width: 1200px;
+            }
 
             .home {
                 display: flex;
@@ -88,7 +99,7 @@ body {
                     }
 
                     #toggle-full-width {
-                        @media not screen and (min-width: $on-laptop) {
+                        @include media-query($on-laptop) {
                             display: none;
                         }
                     }
@@ -99,7 +110,7 @@ body {
                         flex-direction: row;
                     }
 
-                    @media not screen and (min-width: $on-laptop) {
+                    @include media-query($on-laptop) {
                         flex-direction: column;
                     }
 
@@ -126,7 +137,7 @@ body {
                         border-style: solid;
                         border-width: 1px;
 
-                        @media not screen and (min-width: $on-laptop) {
+                        @include media-query($on-laptop) {
                             overflow: auto;
                         }
 
