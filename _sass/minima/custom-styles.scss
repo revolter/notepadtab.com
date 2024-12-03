@@ -88,7 +88,7 @@ body {
                     }
 
                     #toggle-full-width {
-                        @media not screen and (min-width: $on-laptop) {
+                        @media screen and (max-width: $on-laptop) {
                             display: none;
                         }
                     }
@@ -99,7 +99,7 @@ body {
                         flex-direction: row;
                     }
 
-                    @media not screen and (min-width: $on-laptop) {
+                    @media screen and (max-width: $on-laptop) {
                         flex-direction: column;
                     }
 
@@ -126,7 +126,7 @@ body {
                         border-style: solid;
                         border-width: 1px;
 
-                        @media not screen and (min-width: $on-laptop) {
+                        @media screen and (max-width: $on-laptop) {
                             overflow: auto;
                         }
 
